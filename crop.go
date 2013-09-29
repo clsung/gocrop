@@ -5,7 +5,9 @@ import (
   "os"
   "flag"
   "image"
+  _ "image/gif"
   "image/jpeg"
+  _ "image/png"
   "code.google.com/p/graphics-go/graphics"
 )
 
