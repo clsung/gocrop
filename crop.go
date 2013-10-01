@@ -3,6 +3,7 @@ package main
 import (
   "fmt"
   "os"
+  "log"
   "flag"
   "image"
   _ "image/gif"
@@ -23,12 +24,21 @@ func main() {
     os.Exit(1);
   }
   fmt.Printf("opening %s\n", args[0])
-  fSrc, _ := os.Open(args[0])
+  fSrc, err := os.Open(args[0])
+  if err != nil {
+      log.Fatal(err)
+  }
   defer fSrc.Close()
-  src, _, _ := image.Decode(fSrc)
+  src, _, err := image.Decode(fSrc)
+  if err != nil {
+      log.Fatal(err)
+  }
   dst := image.NewRGBA(image.Rect(0, 0, 80, 80))
   graphics.Thumbnail(dst, src)
-  toimg, _ := os.Create(args[1])
+  toimg, err := os.Create(args[1])
+  if err != nil {
+      log.Fatal(err)
+  }
   defer toimg.Close()
 
   jpeg.Encode(toimg, dst, &jpeg.Options{jpeg.DefaultQuality})
